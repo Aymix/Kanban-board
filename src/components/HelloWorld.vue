@@ -1,32 +1,42 @@
 <template>
-    <div id="app">
-        <v-app>
+    <div id="app" >
+        <v-app class="grey lighten-4">
             <v-container>
-                <GetTasks></GetTasks>
+               
                 <v-row>
                 <CurrentTasks></CurrentTasks>
+                <OngoingTasks></OngoingTasks>
+                <Reviews></Reviews>
+                <Backlog></Backlog>
                 <CompletedTasks></CompletedTasks>
+
               </v-row>
             </v-container>
         </v-app>
     </div>
 </template>
 <script>
-import GetTasks from './parts/GetTasks.vue'
 import CurrentTasks from './parts/CurrentTasks.vue'
 import CompletedTasks from './parts/CompletedTasks.vue'
+import OngoingTasks from './parts/OngoingTasks.vue'
+import Backlog from './parts/Backlog.vue'
+import Reviews from './parts/Reviews.vue'
 export default {
     name: 'HelloWorld',
 
     components: {
-        GetTasks,
         CurrentTasks,
-        CompletedTasks
+        CompletedTasks,
+        OngoingTasks,
+        Backlog,
+        Reviews
     },
 
     watch: {
-      '$store.state.todos': function() {
+      '$store.getters.todos': function() {
+        console.log(this.$store.state.todos);
      localStorage.setItem('todos', JSON.stringify(this.$store.state.todos));
+     localStorage.setItem('completed', JSON.stringify(this.$store.state.completed));
   }
   }
 }

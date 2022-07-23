@@ -2,7 +2,7 @@
     <v-col>
         <v-row>
             <v-col class="justify-space-between d-flex align-center">
-                <h4 class="grey--text text--darken-2">DONE <span class="mx-2 grey--text text--lighten-1">{{completed.length}}</span></h4>
+                <h4 class="grey--text text--darken-2">BACKLOG <span class="mx-2 grey--text text--lighten-1">{{completed.length}}</span></h4>
                 <todoModal v-bind:type="type" ></todoModal>
             </v-col>
         </v-row>
@@ -42,7 +42,7 @@ export default {
 
     data() {
         return {
-            type: 'Completed'
+            type: 'Backlog'
         }
     },
     methods: {

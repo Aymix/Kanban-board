@@ -6,14 +6,27 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         todos: [],
+        completed:[],
         newTodo: ''
     },
     mutations: {
+
         initialiseVars(state) {
             if (localStorage.getItem('todos')) {
                 state.todos = JSON.parse(localStorage.todos)
             }
+            if (localStorage.getItem('completed')) {
+                state.completed = JSON.parse(localStorage.completed)
+            }
                 
+        },
+        setCardTodo(state, payload) {
+           console.log(payload);
+          state.todos = payload;
+        },
+        setCardCompleted(state, payload) {
+           console.log(payload);
+          state.completed = payload;
         },
         GET_TODO(state, todo) {
             state.newTodo = todo
@@ -61,6 +74,7 @@ export default new Vuex.Store({
     },
     getters: {
         newTodo: state => state.newTodo,
+        allTodos: state => state.todos,
         todos: state => state.todos.filter((todo) => { return !todo.completed }),
         completedTodos: state => state.todos.filter((todo) => { return todo.completed })
     }
