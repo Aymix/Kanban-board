@@ -13,16 +13,19 @@
             <v-card-text>
                 <v-container>
                     <v-row>
-                        <v-col class="pt-0 pb-0 pl-0 pr-0" cols="12" sm="6" md="12">
-                            <v-text-field v-bind:value="newTodo" @change="getTodo" label="Enter a title for this card...*" outlined></v-text-field>
-                        </v-col>
-                        <v-col class="pt-0 pb-0 pl-0 pr-0" cols="12" sm="6" md="12">
-                            <v-textarea outlined name="input-7-4" label="Add more detailed description...*">
-                            </v-textarea>
-                        </v-col>
-                        <v-col class="pt-0 pb-0 pl-0 pr-0" cols="12" sm="6" md="12">
-                            <v-select :items="items" chips label="Chips" multiple outlined></v-select>
-                        </v-col>
+                        {{item}}
+                        <v-form>
+                            <v-col class="pt-0 pb-0 pl-0 pr-0" cols="12" sm="6" md="12">
+                                <v-text-field v-model="item.title"  label="Enter a title for this card...*" outlined></v-text-field>
+                            </v-col>
+                            <v-col class="pt-0 pb-0 pl-0 pr-0" cols="12" sm="6" md="12">
+                                <v-textarea v-model="item.description" outlined name="input-7-4" label="Add more detailed description...*">
+                                </v-textarea>
+                            </v-col>
+                            <v-col class="pt-0 pb-0 pl-0 pr-0" cols="12" sm="6" md="12">
+                                <v-select :items="items" v-model="item.chips" chips label="Chips" multiple outlined></v-select>
+                            </v-col>
+                        </v-form>
                     </v-row>
                 </v-container>
                 <small>*indicates required field</small>
@@ -32,7 +35,7 @@
                 <v-btn color="blue darken-1" text @click="dialog = false">
                     Close
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="addTodo">
+                <v-btn color="blue darken-1" text @click="addTodo(col, item)">
                     Save
                 </v-btn>
             </v-card-actions>
@@ -41,18 +44,24 @@
 </template>
 <script>
 export default {
-	props: ['type'],
+	props: ['type','col'],
     data: () => ({
+        item:{ 
+            "title": "",
+            "description":"",
+            "chips":[]
+         },
         dialog: false,
-         items: ['Planning', 'Monetization'],
+        items: ['Planning', 'Monetization'],
     }),
      methods: {
-        getTodo(e) {
+        getTodo(todo) {
 
-            this.$store.dispatch('getTodo', e)
+            this.$store.dispatch('getTodo', todo)
         },
-        addTodo() {
-            this.$store.dispatch('addTodo')
+        addTodo(col, item) {
+            
+            this.$store.dispatch('addTodo', {col:col,item:item,})
             this.dialog = false
 
         }

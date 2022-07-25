@@ -5,6 +5,10 @@ import store from './store/store'
 
 Vue.config.productionTip = false
 
+store.subscribe( (mutation, state) => {
+    localStorage.setItem('columns', JSON.stringify(state.columns));  
+    
+})
 
 new Vue({
   vuetify,

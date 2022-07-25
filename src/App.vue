@@ -20,6 +20,7 @@ export default {
     //
   }),
   beforeMount() {
+    
     this.$store.commit('initialiseVars')
 }, 
 };

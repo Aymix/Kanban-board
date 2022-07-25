@@ -5,49 +5,114 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        todos: [],
-        completed:[],
-        newTodo: ''
+        columns: {
+            "To do": {
+                "tasks": [{
+                        "title": "Add discount code to checkout page",
+                        "description": "not supported in version",
+                        "chips": ["Planning", "Monetization"]
+                    },
+
+                ],
+                "title": "To Do"
+            },
+            "In Progress": {
+                "tasks": [{
+                        "title": "Add discount code to checkout page",
+                        "description": "not supported in version",
+                        "chips": ["Planning", "Monetization"]
+                    },
+
+                ],
+                "title": "In Progress"
+            },
+            "In Review": {
+                "tasks": [{
+                        "title": "Add discount code to checkout page",
+                        "description": "not supported in version",
+                        "chips": ["Planning", "Monetization"]
+                    },
+                    {
+                        "title": "Add discount code to checkout page",
+                        "description": "not supported in version",
+                        "chips": ["Planning", "Monetization"]
+                    }
+                ],
+                "title": "In Review"
+            },
+            "Backlog": {
+                "tasks": [{
+                        "title": "Add discount code to checkout page",
+                        "description": "not supported in version",
+                        "chips": ["Planning", "Monetization"]
+                    },
+                    {
+                        "title": "Add discount code to checkout page",
+                        "description": "not supported in version",
+                        "chips": ["Planning", "Monetization"]
+                    }
+                ],
+                "title": "Backlog"
+            },
+            "Done": {
+                "tasks": [{
+                        "title": "Add discount code to checkout page",
+                        "description": "not supported in version",
+                        "chips": ["Planning", "Monetization"]
+                    },
+                    {
+                        "title": "Add discount code to checkout page",
+                        "description": "not supported in version",
+                        "chips": ["Planning", "Monetization"]
+                    }
+                ],
+                "title": "Done"
+            }
+        },
+
     },
     mutations: {
 
         initialiseVars(state) {
-            if (localStorage.getItem('todos')) {
-                state.todos = JSON.parse(localStorage.todos)
+
+            if (localStorage.getItem('columns')) {
+                state.columns = JSON.parse(localStorage.columns)
             }
-            if (localStorage.getItem('completed')) {
-                state.completed = JSON.parse(localStorage.completed)
-            }
-                
+
         },
-        setCardTodo(state, payload) {
-           console.log(payload);
-          state.todos = payload;
-        },
-        setCardCompleted(state, payload) {
-           console.log(payload);
-          state.completed = payload;
+
+
+        setCardcolumns(state, payload) {
+            console.log(payload);
+            state.columns = payload;
         },
         GET_TODO(state, todo) {
             state.newTodo = todo
         },
-        ADD_TODO(state) {
-            state.todos.push({
-                body: state.newTodo,
-                completed: false
+        ADD_TODO(state, task) {
+            console.log(task);
+            task.col.push({
+                title: task.item.title,
+                description: task.item.description,
+                chips: task.item.chips,
+
             })
-           
         },
         EDIT_TODO(state, todo) {
-            var todos = state.todos
-            todos.splice(todos.indexOf(todo), 1)
-            state.todos = todos
-            state.newTodo = todo.body
+            console.log(todo);
+            Vue.set(todo.col, todo.index, todo.task);
+            //var todos = state.todos
+            //todos.splice(todos.indexOf(todo), 1)
+            //state.todos = todos
+            //state.newTodo = todo.body
         },
         REMOVE_TODO(state, todo) {
-            var todos = state.todos
-            todos.splice(todos.indexOf(todo), 1)
-           
+            console.log(todo.col);
+            console.log(todo.index);
+            console.log(todo.task);
+            //todo.col.splice(todo.task, 0)
+            Vue.delete(todo.col, todo.index);
+
         },
         COMPLETE_TODO(state, todo) {
             todo.completed = !todo.completed
@@ -58,8 +123,8 @@ export default new Vuex.Store({
         getTodo({ commit }, todo) {
             commit('GET_TODO', todo)
         },
-        addTodo({ commit }) {
-            commit('ADD_TODO')
+        addTodo({ commit }, todo) {
+            commit('ADD_TODO', todo)
         },
         editTodo({ commit }, todo) {
             commit('EDIT_TODO', todo)
@@ -67,16 +132,11 @@ export default new Vuex.Store({
         removeTodo({ commit }, todo) {
             commit('REMOVE_TODO', todo)
         },
-        completeTodo({ commit }, todo) {
-            commit('COMPLETE_TODO', todo)
-        },
+
 
     },
     getters: {
-        newTodo: state => state.newTodo,
-        allTodos: state => state.todos,
-        todos: state => state.todos.filter((todo) => { return !todo.completed }),
-        completedTodos: state => state.todos.filter((todo) => { return todo.completed })
+        allColumns: state => state.columns,
     }
 
 })
